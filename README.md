@@ -5,6 +5,16 @@ Tietokantasovellus-kurssin harjoitustyö
 
 Sovelluksessa näkyy keskustelualueita, joista jokaisella on tietty aihe. Alueilla on keskusteluketjuja, jotka muodostuvat viesteistä. Jokainen käyttäjä on peruskäyttäjä tai ylläpitäjä.
 
+## Nykyisiä ominaisuuksia
+
+- Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
+- Käyttäjä näkee kirjautumisen jälkeen listan alueista.
+- Käyttäjä voi luoda uuden alueen.
+- Käyttäjä voi luoda alueelle uuden ketjun antamalla ketjun otsikon.
+- Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ketjuun.
+
+## Tavoiteltavia ominaisuuksia
+
 Sovelluksen ominaisuuksia:
 
 - Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
