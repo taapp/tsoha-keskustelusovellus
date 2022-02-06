@@ -1,0 +1,9 @@
+Keskustelu: {{ thread_title }}
+<hr>
+<form action="/send_message" method="post"> 
+Viesti: <br>
+<textarea name="content" rows="3" cols="40"></textarea>
+<br>
+<input type="submit" value="Lähetä">
+<input type="hidden" name="thread_id" value="{{ thread_id }}">
+</form>

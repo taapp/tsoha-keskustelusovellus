@@ -1,0 +1,34 @@
+<!--
+{% if session.username %}
+<p>Alueet-sivu, olet kirjautunut nimellä {{ session.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+{% else %}
+<p>Et ole kirjautunut sisään.</p>
+{% endif %} 
+-->
+{% if session.user_id %}
+<hr>
+{% for thread in threads %}
+<i>Otsikko:</i> {{ thread[0] }}
+<p>
+<i>Luoja:</i> {{ thread[1] }}
+<p>
+<i>Aika:</i> {{ thread[2].strftime("%Y-%m-%d %H:%M:%S") }}
+
+<a href="{{ url_for('handle_messages', thread_id=thread[3]) }}">Mene ketjuun</a>
+<!--
+<form action="/threads" method="post">
+    <p>
+    <input type="submit" value= {{ thread[1] }}>
+    </form>
+-->
+<hr>
+
+
+{% endfor %}
+Olet kirjautunut sisään.
+<!-- <a href="/new">Lähetä viesti</a> |  <a href="/logout">Kirjaudu ulos</a> -->
+<a href="{{ url_for('new_thread', area_id=area_id) }}">Luo ketju</a> | <a href="/logout">Kirjaudu ulos</a>
+{% else %}
+<a href="/login">Kirjaudu sisään</a>
+{% endif %}

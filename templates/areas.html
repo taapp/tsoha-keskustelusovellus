@@ -1,0 +1,35 @@
+<!--
+{% if session.username %}
+<p>Alueet-sivu, olet kirjautunut nimellä {{ session.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+{% else %}
+<p>Et ole kirjautunut sisään.</p>
+{% endif %} 
+-->
+{% if session.user_id %}
+<!-- Viestien määrä: {{ count }} -->
+<hr>
+{% for area in areas %}
+<i>Alue:</i> {{ area[0] }}
+<p>
+<i>Luoja:</i> {{ area[1] }}
+<p>
+<i>Aika:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
+
+<a href="{{ url_for('handle_threads', area_id=area[3]) }}">Mene alueelle</a>
+<!--
+<form action="/threads" method="post">
+    <p>
+    <input type="submit" value= {{ area[1] }}>
+    </form>
+-->
+<hr>
+
+
+{% endfor %}
+Olet kirjautunut sisään.
+<!-- <a href="/new">Lähetä viesti</a> |  <a href="/logout">Kirjaudu ulos</a> -->
+<a href="{{ url_for('new_area') }}">Luo alue</a> | <a href="/logout">Kirjaudu ulos</a>
+{% else %}
+<a href="/login">Kirjaudu sisään</a>
+{% endif %}

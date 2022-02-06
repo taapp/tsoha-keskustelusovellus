@@ -1,0 +1,8 @@
+Alue: {{ area_name }}
+<hr>
+<form action="/create_thread" method="post"> 
+Otsikko: <input type="text" name="thread_title">
+<p>
+<input type="submit" value="Luo ketju">
+<input type="hidden" name="area_id" value="{{ area_id }}">
+</form>
