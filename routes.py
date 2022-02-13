@@ -60,6 +60,15 @@ def create_area():
     else:
         return render_template("error.html", message="Alueen luonti ei onnistunut")
 
+@app.route("/delete_message<message_id>", methods=["GET","POST"])
+def delete_message(message_id):
+    print(f'/delete_message POST, message_id: {message_id}')
+    if messages.delete(message_id):
+        #return redirect("/")
+        return redirect("/areas")
+    else:
+        return render_template("error.html", message="Viestin poistaminen ei onnistunut")
+
 # @app.route("/send_message<thread_id>", methods=["GET","POST"])
 # def send_message(thread_id):
 #     print('/send_message')
