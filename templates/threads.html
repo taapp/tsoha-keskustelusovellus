@@ -14,8 +14,12 @@
 <i>Luoja:</i> {{ thread[1] }}
 <p>
 <i>Aika:</i> {{ thread[2].strftime("%Y-%m-%d %H:%M:%S") }}
-
+<p>
 <a href="{{ url_for('handle_messages', thread_id=thread[3]) }}">Mene ketjuun</a>
+{% if session.user_id==thread[4] %}
+<p>
+<a href="{{ url_for('delete_thread', thread_id=thread[3]) }}">Poista ketju</a>
+{% endif %}
 <!--
 <form action="/threads" method="post">
     <p>
