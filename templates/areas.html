@@ -10,13 +10,19 @@
 <!-- Viestien määrä: {{ count }} -->
 <hr>
 {% for area in areas %}
-<i>Alue:</i> {{ area[0] }}
+<i>Alue:</i> {{ area[1] }}
 <p>
-<i>Luoja:</i> {{ area[1] }}
+<i>Luoja:</i> {{ area[3] }}
 <p>
-<i>Aika:</i> {{ area[2].strftime("%Y-%m-%d %H:%M:%S") }}
+<i>Aika:</i> {{ area[2] }}
+<p>
+<i>Ketjujen määrä:</i> {{ area[4] }}
+<p>
+<i>Viestien määrä:</i> {{ area[5] }}
+<p>
+<i>Viimeisin viesti lähetetty:</i> {{ area[6] }}
 
-<a href="{{ url_for('handle_threads', area_id=area[3]) }}">Mene alueelle</a>
+<a href="{{ url_for('handle_threads', area_id=area[0]) }}">Mene alueelle</a>
 <!--
 <form action="/threads" method="post">
     <p>

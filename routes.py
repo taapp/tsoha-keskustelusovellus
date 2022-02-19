@@ -123,8 +123,7 @@ def handle_areas():
     print('/areas')
     #list = messages.get_list()
     #return render_template("areas.html", count=len(list), messages=list)
-    ls = areas.get_list()
-    return render_template("areas.html", areas=ls)
+    return render_template("areas.html", areas=areas.get_list())
 
 
 @app.route("/threads<area_id>", methods=["GET", "POST"])
