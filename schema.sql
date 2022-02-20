@@ -6,6 +6,7 @@ CREATE TABLE users (
     is_admin BOOLEAN,
     is_visible BOOLEAN
 );
+
 CREATE TABLE areas (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users,
@@ -14,6 +15,7 @@ CREATE TABLE areas (
     is_secret BOOLEAN,
     is_visible BOOLEAN
 );
+
 CREATE TABLE threads (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users,
@@ -22,6 +24,7 @@ CREATE TABLE threads (
     created_at TIMESTAMP,
     is_visible BOOLEAN
 );
+
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users,
@@ -30,6 +33,7 @@ CREATE TABLE messages (
     created_at TIMESTAMP,
     is_visible BOOLEAN
 );
+
 CREATE TABLE users_areas (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users,
