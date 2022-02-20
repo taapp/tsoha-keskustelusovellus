@@ -15,6 +15,46 @@ def new_message(thread_id):
     thread_title = threads.get_title(thread_id)
     return render_template("new_message.html", thread_id=thread_id, thread_title=thread_title)
 
+@app.route("/edit_message<message_id>", methods=["GET","POST"])
+def edit_message(message_id):
+    if request.method == "GET":
+        print('/edit_message GET')
+        message = messages.get_by_id(message_id)
+        return render_template("edit_message.html", message_id=message[0], thread_id=message[1], content=message[2], user_id=message[3])
+    # if request.method == "POST":
+    #     print('/edit_message POST')
+    #     message_id = request.form["message_id"]
+    #     content = request.form["content"]
+    #     if messages.edit(message_id, content):
+    #         #return redirect("/")
+    #         return redirect("/areas")
+    #     return render_template("error.html", message="Viestin muuttaminen ei onnistunut")
+
+@app.route("/handle_edit_message", methods=["GET","POST"])
+def handle_edit_message():
+    print('/handle_edit_message')
+    message_id = request.form["message_id"]
+    content = request.form["content"]
+    if messages.edit(message_id, content):
+        #return redirect("/")
+        return redirect("/areas")
+    return render_template("error.html", message="Viestin muuttaminen ei onnistunut")
+# @app.route("/login", methods=["GET", "POST"])
+# def login():
+#     if request.method == "GET":
+#         print('/login GET')
+#         return render_template("login.html")
+#     if request.method == "POST":
+#         print('/login POST')
+#         username = request.form["username"]
+#         password = request.form["password"]
+#         if users.login(username, password):
+#             #return redirect("/")
+#             return redirect("/areas")
+#         else:
+#             return render_template("error.html", message="Väärä tunnus tai salasana")
+
+
 @app.route("/new_thread<area_id>", methods=["GET","POST"])
 def new_thread(area_id):
     print('/new_thread')

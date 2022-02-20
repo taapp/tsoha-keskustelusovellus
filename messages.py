@@ -1,3 +1,4 @@
+from re import S
 from db import db
 import users
 
@@ -20,6 +21,10 @@ def get_list(thread_id):
     result = db.session.execute(sql, {'thread_id':thread_id})
     return result.fetchall()
 
+def get_by_id(message_id):
+    sql = """SELECT id, thread_id, content, user_id FROM messages WHERE id=:message_id"""
+    result = db.session.execute(sql, {'message_id':message_id})
+    return result.fetchone()
 
 def send(content, thread_id):
     user_id = users.user_id()
@@ -34,5 +39,11 @@ def send(content, thread_id):
 def delete(message_id):
     sql = """UPDATE messages SET is_visible=FALSE WHERE id=:message_id;"""
     db.session.execute(sql, {"message_id":message_id})
+    db.session.commit()
+    return True
+
+def edit(message_id, content):
+    sql = """UPDATE messages SET content=:content WHERE id=:message_id;"""
+    db.session.execute(sql, {"message_id":message_id, "content":content})
     db.session.commit()
     return True

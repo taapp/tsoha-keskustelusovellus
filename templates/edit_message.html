@@ -1,0 +1,14 @@
+{% if session.user_id==user_id or session.user_is_admin==True %}
+Muuta viestiä: 
+<hr>
+<form action="/handle_edit_message" method="post"> 
+Viesti: <br>
+<textarea name="content" rows="3" cols="40">{{ content }}</textarea>
+<br>
+<input type="submit" value="Lähetä">
+<input type="hidden" name="thread_id" value="{{ thread_id }}">
+<input type="hidden" name="message_id" value="{{ message_id }}">
+</form>
+{% else %}
+<a href="/login">Ei käyttöoikeuksia.</a>
+{% endif %}
