@@ -17,7 +17,7 @@
 <i>Aika:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
 <p>
 <i>Viestin id:</i> {{ message[4] }}
-{% if session.user_id==message[5] %}
+{% if session.user_id==message[5] or session.user_is_admin==True %}
 <p>
 <!-- <a href="{{ url_for('handle_messages', thread_id=message[3]) }}">Mene ketjuun</a> -->
 <a href="{{ url_for('delete_message', message_id=message[4]) }}">Poista viesti</a>

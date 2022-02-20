@@ -4,21 +4,24 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 def login(username, password):
     #sql = "SELECT id, password FROM users WHERE username=:username"
-    sql = "SELECT id, password FROM users WHERE name=:username"
+    sql = "SELECT id, password, is_admin FROM users WHERE name=:username"
     #result = db.session.execute(sql, {"username":username})
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
+    print(type(user))
     if not user:
         return False
     else:
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
+            session["user_is_admin"] = user.is_admin
             return True
         else:
             return False
 
 def logout():
     del session["user_id"]
+    del session["user_is_admin"]
 
 def register(username, password, is_admin):
     hash_value = generate_password_hash(password)
