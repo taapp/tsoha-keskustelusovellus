@@ -46,9 +46,15 @@ Etsi viestejä tekstisisällön perusteella:
 
 
 {% endfor %}
-Olet kirjautunut sisään.
+{% if session.user_is_admin==True %}
+<a href="{{ url_for('new_area') }}">Luo alue</a> 
+<p>
+<a href="{{ url_for('new_secret_area') }}">Luo salainen alue</a> 
+{% endif %}
+<hr>
+Olet kirjautunut sisään. | <a href="/logout">Kirjaudu ulos</a>
 <!-- <a href="/new">Lähetä viesti</a> |  <a href="/logout">Kirjaudu ulos</a> -->
-<a href="{{ url_for('new_area') }}">Luo alue</a> | <a href="/logout">Kirjaudu ulos</a>
+
 {% else %}
 <a href="/login">Kirjaudu sisään</a>
 {% endif %}

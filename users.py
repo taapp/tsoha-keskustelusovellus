@@ -1,3 +1,4 @@
+from pickle import FALSE
 from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -38,3 +39,17 @@ def register(username, password, is_admin):
 
 def user_id():
     return session.get("user_id",0)
+
+def user_is_admin():
+    return session.get("user_is_admin",FALSE)
+
+def get_list_normal_users():
+    #sql = "SELECT M.content, U.username, M.sent_at FROM messages M, users U WHERE M.user_id=U.id ORDER BY M.id"
+    #sql = """SELECT M.content, U.name, M.created_at, TH.title FROM messages M, users U, threads TH 
+    #         WHERE M.user_id=U.id AND M.thread_id=:thread_id AND TH.id=:thread_id  ORDER BY M.created_at"""
+    #sql = """SELECT M.content, U.name, M.created_at, M.thread_id, M.id, M.user_id, U.is_admin FROM messages M, users U 
+    #         WHERE M.user_id=U.id AND M.thread_id=:thread_id AND M.is_visible=TRUE ORDER BY M.created_at"""
+    sql = """SELECT id, name FROM users WHERE is_admin=FALSE AND is_visible=TRUE"""
+    result = db.session.execute(sql)
+    return result.fetchall()
+

@@ -1,7 +1,10 @@
-
+{% if session.user_is_admin==True %}
 <hr>
 <form action="/create_area" method="post"> 
 Alueen nimi: <input type="text" name="area_name">
 <p>
 <input type="submit" value="Luo alue">
 </form>
+{% else %}
+Ei käyttöoikeuksia. | <a href="/logout">Kirjaudu ulos</a>
+{% endif %}

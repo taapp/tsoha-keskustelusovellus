@@ -67,6 +67,12 @@ def new_area():
     #area_name = areas.get_area_name(area_id)
     return render_template("new_area.html")
 
+@app.route("/new_secret_area", methods=["GET","POST"])
+def new_secret_area():
+    print('/new_secret_area')
+    users_list = users.get_list_normal_users()
+    return render_template("new_secret_area.html", users=users_list)
+
 @app.route("/send_message", methods=["POST"])
 def send_message():
     print('/send_message POST')
@@ -99,6 +105,18 @@ def create_area():
         return redirect("/areas")
     else:
         return render_template("error.html", message="Alueen luonti ei onnistunut")
+
+@app.route("/create_secret_area", methods=["POST"])
+def create_secret_area():
+    print('/create_secret_area POST')
+    area_name = request.form["area_name"]
+    users_list = request.form.getlist("users")
+    print(users_list)
+    if areas.create_secret(area_name, users_list):
+        #return redirect("/")
+        return redirect("/areas")
+    else:
+        return render_template("error.html", message="Salaisen alueen luonti ei onnistunut")
 
 @app.route("/delete_message<message_id>", methods=["GET","POST"])
 def delete_message(message_id):
@@ -187,16 +205,12 @@ def handle_areas():
 
 @app.route("/threads<area_id>", methods=["GET", "POST"])
 def handle_threads(area_id):
-    ls = threads.get_list(area_id)
-    return render_template("threads.html", threads=ls, area_id=area_id)
+    return render_template("threads.html", threads=threads.get_list(area_id), area_id=area_id)
 
 @app.route("/messages<thread_id>", methods=["GET", "POST"])
 def handle_messages(thread_id):
-    #ls = threads.get_list(area_id)
-    #return render_template("threads.html", threads=ls)
-    ls = messages.get_list(thread_id)
     thread_title = threads.get_title(thread_id)
-    return render_template("messages.html", messages=ls, thread_title=thread_title, thread_id=thread_id)
+    return render_template("messages.html", messages=messages.get_list(thread_id), thread_title=thread_title, thread_id=thread_id)
 
 @app.route("/search_messages", methods=["GET", "POST"])
 def search_messages():
