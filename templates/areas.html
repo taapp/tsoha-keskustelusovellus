@@ -30,7 +30,7 @@ Etsi viestejä tekstisisällön perusteella:
 <i>Viestien määrä:</i> {{ area[5] }}
 <p>
 <i>Viimeisin viesti lähetetty:</i> {{ area[6] }}
-
+<p>
 <a href="{{ url_for('handle_threads', area_id=area[0]) }}">Mene alueelle</a>
 {% if session.user_is_admin==True %}
 <p>
