@@ -127,6 +127,22 @@ def create(area_name):
     db.session.commit()
     return True
 
+def delete(area_id):
+    sql_messages = """
+        WITH deletable_threads AS (
+            SELECT id from threads WHERE area_id=:area_id
+            )
+        UPDATE messages SET is_visible=FALSE WHERE thread_id IN (SELECT id FROM deletable_threads);
+        """
+    db.session.execute(sql_messages, {"area_id":area_id})
+    sql_threads = """UPDATE threads SET is_visible=FALSE WHERE area_id=:area_id;"""
+    db.session.execute(sql_threads, {"area_id":area_id})
+    sql_areas = """UPDATE areas SET is_visible=FALSE WHERE id=:area_id;"""
+    db.session.execute(sql_areas, {"area_id":area_id})
+    db.session.commit()
+    return True
+
+
 # def send(content):
 #     user_id = users.user_id()
 #     if user_id == 0:

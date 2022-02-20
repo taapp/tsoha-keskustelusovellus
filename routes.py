@@ -78,6 +78,15 @@ def delete_thread(thread_id):
     else:
         return render_template("error.html", message="Ketjun poistaminen ei onnistunut")
 
+@app.route("/delete_area<area_id>", methods=["GET","POST"])
+def delete_area(area_id):
+    print(f'/delete_area POST, area_id: {area_id}')
+    if areas.delete(area_id):
+        #return redirect("/")
+        return redirect("/areas")
+    else:
+        return render_template("error.html", message="Alueen poistaminen ei onnistunut")
+
 # @app.route("/send_message<thread_id>", methods=["GET","POST"])
 # def send_message(thread_id):
 #     print('/send_message')
