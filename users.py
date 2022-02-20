@@ -20,14 +20,14 @@ def login(username, password):
 def logout():
     del session["user_id"]
 
-def register(username, password):
+def register(username, password, is_admin):
     hash_value = generate_password_hash(password)
     try:
         #sql = "INSERT INTO users (username,password) VALUES (:username,:password)"
         #db.session.execute(sql, {"username":username, "password":hash_value})
         #sql = "INSERT INTO users (username,password) VALUES (:username,:password)"
-        sql  =  "INSERT INTO users (name, password, created_at, is_admin, is_visible) VALUES (:name, :password, NOW(), TRUE, TRUE)"
-        db.session.execute(sql, {"name":username, "password":hash_value})
+        sql  =  "INSERT INTO users (name, password, created_at, is_admin, is_visible) VALUES (:name, :password, NOW(), :is_admin, TRUE)"
+        db.session.execute(sql, {"name":username, "password":hash_value, "is_admin": is_admin})
         db.session.commit()
     except:
         return False
