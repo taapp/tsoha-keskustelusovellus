@@ -198,6 +198,15 @@ def handle_messages(thread_id):
     thread_title = threads.get_title(thread_id)
     return render_template("messages.html", messages=ls, thread_title=thread_title, thread_id=thread_id)
 
+@app.route("/search_messages", methods=["GET", "POST"])
+def search_messages():
+    #ls = threads.get_list(area_id)
+    #return render_template("threads.html", threads=ls)
+    #ls = messages.get_list(thread_id)
+    searched_content = request.form["searched_content"]
+    messages_list = messages.get_by_content(searched_content)
+    return render_template("searched_messages.html", messages=messages_list)
+
 # @app.route("/modify_subject<subject_name>", methods=["GET"])
 # @login_required
 # def render_modify_subject(subject_name):

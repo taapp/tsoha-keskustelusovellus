@@ -7,6 +7,15 @@
 {% endif %} 
 -->
 {% if session.user_id %}
+Olet kirjautunut sisään.
+<!-- <a href="/new">Lähetä viesti</a> |  <a href="/logout">Kirjaudu ulos</a> -->
+<a href="{{ url_for('new_area') }}">Luo alue</a> | <a href="/logout">Kirjaudu ulos</a>
+<p></p>
+Etsi viestejä tekstisisällön perusteella: 
+<form action="/search_messages" method="post"> 
+<textarea name="searched_content" rows="1" cols="20"></textarea>
+<input type="submit" value="Etsi">
+</form>
 <!-- Viestien määrä: {{ count }} -->
 <hr>
 {% for area in areas %}

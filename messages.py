@@ -26,6 +26,16 @@ def get_by_id(message_id):
     result = db.session.execute(sql, {'message_id':message_id})
     return result.fetchone()
 
+def get_by_content(content):
+    sql = f"""SELECT me.id, me.content, me.created_at, us.name AS user_name, th.title AS thread_title, th.id AS thread_id, ar.name AS area_name FROM messages me
+        JOIN users us ON me.user_id=us.id
+        JOIN threads th ON me.thread_id=th.id
+        JOIN areas ar ON th.area_id=ar.id
+        WHERE LOWER(me.content) LIKE LOWER(:content) AND me.is_visible=TRUE AND th.is_visible=TRUE AND ar.is_visible=TRUE"""
+    result = db.session.execute(sql, {'content':"%"+content.strip()+"%"})
+    return result.fetchall()
+
+
 def send(content, thread_id):
     user_id = users.user_id()
     if user_id == 0:
