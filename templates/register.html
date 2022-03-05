@@ -9,4 +9,5 @@ Salasana uudestaan: <input type="password" name="password2">
 <input type="radio" name="user_type" value="1"> Ylläpitäjä
 <p>
 <input type="submit" value="Luo tunnus">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>

@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, request, redirect
 import users, areas, threads, messages
 
+
 @app.route("/")
 def index():
     print('/ (index)')
@@ -35,6 +36,7 @@ def handle_edit_message():
     print('/handle_edit_message')
     message_id = request.form["message_id"]
     content = request.form["content"]
+    users.check_csrf_token(request)
     if messages.edit(message_id, content):
         #return redirect("/")
         return redirect("/areas")
@@ -78,6 +80,7 @@ def send_message():
     print('/send_message POST')
     content = request.form["content"]
     thread_id = request.form["thread_id"]
+    users.check_csrf_token(request)
     if messages.send(content, thread_id):
         #return redirect("/")
         return redirect("/areas")
@@ -89,6 +92,7 @@ def create_thread():
     print('/create_thread POST')
     thread_title = request.form["thread_title"]
     area_id = request.form["area_id"]
+    users.check_csrf_token(request)
     if threads.create(thread_title, area_id):
         #return redirect("/")
         return redirect("/areas")
@@ -100,6 +104,7 @@ def create_thread():
 def create_area():
     print('/create_area POST')
     area_name = request.form["area_name"]
+    users.check_csrf_token(request)
     if areas.create(area_name):
         #return redirect("/")
         return redirect("/areas")
@@ -111,6 +116,7 @@ def create_secret_area():
     print('/create_secret_area POST')
     area_name = request.form["area_name"]
     users_list = request.form.getlist("users")
+    users.check_csrf_token(request)
     print(users_list)
     if areas.create_secret(area_name, users_list):
         #return redirect("/")
@@ -218,6 +224,7 @@ def search_messages():
     #return render_template("threads.html", threads=ls)
     #ls = messages.get_list(thread_id)
     searched_content = request.form["searched_content"]
+    users.check_csrf_token(request)
     messages_list = messages.get_by_content(searched_content)
     return render_template("searched_messages.html", messages=messages_list)
 

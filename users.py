@@ -1,6 +1,7 @@
 from pickle import FALSE
+from secrets import token_hex
 from db import db
-from flask import session
+from flask import session, abort
 from werkzeug.security import check_password_hash, generate_password_hash
 
 def login(username, password):
@@ -16,6 +17,7 @@ def login(username, password):
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
             session["user_is_admin"] = user.is_admin
+            session["csrf_token"] = token_hex(16)
             return True
         else:
             return False
@@ -23,6 +25,7 @@ def login(username, password):
 def logout():
     del session["user_id"]
     del session["user_is_admin"]
+    del session["csrf_token"]
 
 def register(username, password, is_admin):
     hash_value = generate_password_hash(password)
@@ -53,3 +56,6 @@ def get_list_normal_users():
     result = db.session.execute(sql)
     return result.fetchall()
 
+def check_csrf_token(request):
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)

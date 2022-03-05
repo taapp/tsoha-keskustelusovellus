@@ -15,6 +15,7 @@ Etsi viestejä tekstisisällön perusteella:
 <form action="/search_messages" method="post"> 
 <textarea name="searched_content" rows="1" cols="20"></textarea>
 <input type="submit" value="Etsi">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 <!-- Viestien määrä: {{ count }} -->
 <hr>
