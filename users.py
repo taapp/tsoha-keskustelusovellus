@@ -16,6 +16,7 @@ def login(username, password):
     else:
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
+            session["username"] = username
             session["user_is_admin"] = user.is_admin
             session["csrf_token"] = token_hex(16)
             return True

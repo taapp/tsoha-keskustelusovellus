@@ -6,10 +6,31 @@
 <p>Et ole kirjautunut sisään.</p>
 {% endif %} 
 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
 {% if session.user_id %}
+
+<nav class="navbar navbar-expand-sm navbar-light">
+    <a class="navbar-brand" href="#">Keskustelusovellus</a>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Kirjaudu ulos</a>
+      </li>
+        {% if session.user_is_admin==True %}
+        <li class="nav-item"></li>
+            <a class="nav-link" href="{{ url_for('new_area') }}">Luo alue</a> 
+        </li>
+        <li class="nav-item"></li>
+            <a class="nav-link" href="{{ url_for('new_secret_area') }}">Luo salainen alue</a> 
+        </li>
+        {% endif %}
+    </ul>
+  </nav>
+
 Olet kirjautunut sisään.
 <!-- <a href="/new">Lähetä viesti</a> |  <a href="/logout">Kirjaudu ulos</a> -->
-<a href="{{ url_for('new_area') }}">Luo alue</a> | <a href="/logout">Kirjaudu ulos</a>
+<!--<a href="{{ url_for('new_area') }}">Luo alue</a> | <a href="/logout">Kirjaudu ulos</a> -->
 <p></p>
 Etsi viestejä tekstisisällön perusteella: 
 <form action="/search_messages" method="post"> 

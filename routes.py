@@ -211,7 +211,8 @@ def handle_areas():
 
 @app.route("/threads<area_id>", methods=["GET", "POST"])
 def handle_threads(area_id):
-    return render_template("threads.html", threads=threads.get_list(area_id), area_id=area_id)
+    area_name = areas.get_area_name(area_id)
+    return render_template("threads.html", threads=threads.get_list(area_id), area_id=area_id, area_name=area_name)
 
 @app.route("/messages<thread_id>", methods=["GET", "POST"])
 def handle_messages(thread_id):

@@ -6,7 +6,26 @@
 <p>Et ole kirjautunut sisään.</p>
 {% endif %} 
 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
 {% if session.user_id %}
+<p>Alue: "{{ area_name }}"</p>
+<p>Olet kirjautunut nimellä {{ session.username }}</p>
+
+<nav class="navbar navbar-expand-sm navbar-light">
+    <!-- <a class="navbar-brand" href="#">Keskustelusovellus</a> -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Kirjaudu ulos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/areas">Alueet-sivu</a>
+      </li>
+    </ul>
+  </nav>
+
+
 <hr>
 {% for thread in threads %}
 <i>Otsikko:</i> {{ thread[0] }}
