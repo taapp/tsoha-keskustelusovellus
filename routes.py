@@ -239,7 +239,7 @@ def search_messages():
     searched_content = request.form["searched_content"]
     users.check_csrf_token(request)
     messages_list = messages.get_by_content(searched_content)
-    return render_template("searched_messages.html", messages=messages_list)
+    return render_template("searched_messages.html", messages=messages_list, searched_content=searched_content)
 
 # @app.route("/modify_subject<subject_name>", methods=["GET"])
 # @login_required
