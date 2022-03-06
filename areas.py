@@ -79,7 +79,6 @@ def create(area_name):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    #sql = "INSERT INTO messages (content, user_id, sent_at) VALUES (:content, :user_id, NOW())"
     sql = "INSERT INTO areas (user_id, name, created_at, is_secret, is_visible) VALUES (:user_id, :area_name, NOW(), FALSE, TRUE)"
     db.session.execute(sql, {"user_id":user_id, 'area_name': area_name})
     db.session.commit()
@@ -89,7 +88,6 @@ def create_secret(area_name, user_id_list):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    #sql = "INSERT INTO messages (content, user_id, sent_at) VALUES (:content, :user_id, NOW())"
     sql = "INSERT INTO areas (user_id, name, created_at, is_secret, is_visible) VALUES (:user_id, :area_name, NOW(), TRUE, TRUE)"
     db.session.execute(sql, {"user_id":user_id, 'area_name': area_name})
     db.session.commit()
