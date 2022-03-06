@@ -9,12 +9,12 @@ Sovelluksessa näkyy keskustelualueita, joista jokaisella on tietty aihe. Alueil
 
 Sovellusta voi testat Herokussa menemällä osoitteeseen https://tsoha-keskustelu-app.herokuapp.com/. Testaaminen kannattaa aloittaa luomalla uusi käyttäjätunnus. Käyttäjätunnuksen luomiseen pääsee menemällä etusivun alimman rivin viimeisessä sanassa olevaan linkkiin.
 
-## Sovelluksen nykyinen tilanne lyhyesti
-Valtaosa tavoiteltavista toiminnallisuuksista on implementoitu. Viimeistä palautusta varten on tarkoitus keskittyä enemmän käytettävyyteen (kuten navigointiin), ulkoasuun, syötteiden validointiin ja koodin sisäiseen laatuun.
+## Sovelluksen tilanne
+Melkein kaikki alun perin suunnitelluista ominaisuuksista on toteutettu. Mielestäni tärkein eroavaisuus suunnitellun ja toteutetun välillä on, että viestiketjun otsikkoa ei voi muuttaa jälkeenpäin.
 
-## Nykyisiä ominaisuuksia
+## Toteutetut ominaisuudet
 
-Sovelluksen ominaisuudet tällä hetkellä:
+Sovelluksen toteuteteut ominaisuudet:
 
 - Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
 - Käyttäjä näkee sovelluksen etusivulla listan alueista sekä jokaisen alueen ketjujen ja viestien määrän ja viimeksi lähetetyn viestin ajankohdan.
@@ -25,9 +25,9 @@ Sovelluksen ominaisuudet tällä hetkellä:
 - Ylläpitäjä voi lisätä ja poistaa keskustelualueita.
 - Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
 
-## Tavoiteltavia ominaisuuksia
+## Alun perin suunniteltuja ominaisuuksia
 
-Sovelluksen tavoiteltavia ominaisuuksia:
+Ominaisuudet, jotka olivat alun perin suunnitelmissa:
 
 - Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
 - Käyttäjä näkee sovelluksen etusivulla listan alueista sekä jokaisen alueen ketjujen ja viestien määrän ja viimeksi lähetetyn viestin ajankohdan.
@@ -37,6 +37,3 @@ Sovelluksen tavoiteltavia ominaisuuksia:
 - Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
 - Ylläpitäjä voi lisätä ja poistaa keskustelualueita.
 - Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
-
-## Tunnettuja ongelmia tällä hetkellä
-- Salaiset alueet eivät ole kunnolla piilotettu, eli esimerkiksi hakutoiminnolla voidaan päästä käsiksi salattujen alueiden ketjuihin.
