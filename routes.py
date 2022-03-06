@@ -8,13 +8,11 @@ import messages
 
 @app.route("/")
 def index():
-    print("/ (index)")
     return render_template("login.html")
 
 
 @app.route("/new_message<thread_id>", methods=["GET", "POST"])
 def new_message(thread_id):
-    print("/new_message")
     thread_title = threads.get_title(thread_id)
     return render_template(
         "new_message.html", thread_id=thread_id, thread_title=thread_title
@@ -24,7 +22,6 @@ def new_message(thread_id):
 @app.route("/edit_message<message_id>", methods=["GET", "POST"])
 def edit_message(message_id):
     if request.method == "GET":
-        print("/edit_message GET")
         message = messages.get_by_id(message_id)
         thread_id = message[1]
         area_id = threads.get_area_id(thread_id)
@@ -44,7 +41,6 @@ def edit_message(message_id):
 
 @app.route("/handle_edit_message", methods=["GET", "POST"])
 def handle_edit_message():
-    print("/handle_edit_message")
     message_id = request.form["message_id"]
     content = request.form["content"].strip()
     thread_id = messages.get_by_id(message_id)[1]
@@ -66,28 +62,23 @@ def handle_edit_message():
 
 @app.route("/new_thread<area_id>", methods=["GET", "POST"])
 def new_thread(area_id):
-    print("/new_thread")
     area_name = areas.get_area_name(area_id)
     return render_template("new_thread.html", area_id=area_id, area_name=area_name)
 
 
 @app.route("/new_area", methods=["GET", "POST"])
 def new_area():
-    print("/new_area")
-    # area_name = areas.get_area_name(area_id)
     return render_template("new_area.html")
 
 
 @app.route("/new_secret_area", methods=["GET", "POST"])
 def new_secret_area():
-    print("/new_secret_area")
     users_list = users.get_list_normal_users()
     return render_template("new_secret_area.html", users=users_list)
 
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
-    print("/send_message POST")
     content = request.form["content"].strip()
     thread_id = request.form["thread_id"]
     users.check_csrf_token(request)
@@ -108,7 +99,6 @@ def send_message():
 
 @app.route("/create_thread", methods=["POST"])
 def create_thread():
-    print("/create_thread POST")
     thread_title = request.form["thread_title"].strip()
     area_id = request.form["area_id"]
     users.check_csrf_token(request)
@@ -128,7 +118,6 @@ def create_thread():
 
 @app.route("/create_area", methods=["POST"])
 def create_area():
-    print("/create_area POST")
     area_name = request.form["area_name"].strip()
     users.check_csrf_token(request)
     if len(area_name) < 1:
@@ -147,7 +136,6 @@ def create_area():
 
 @app.route("/create_secret_area", methods=["POST"])
 def create_secret_area():
-    print("/create_secret_area POST")
     area_name = request.form["area_name"].strip()
     users_list = request.form.getlist("users")
     users.check_csrf_token(request)
@@ -160,7 +148,6 @@ def create_secret_area():
         return render_template(
             "error.html", message="Alueen nimen pitää olla alle 41 merkin pituinen."
         )
-    print(users_list)
     if areas.create_secret(area_name, users_list):
         return redirect("/areas")
     return render_template("error.html", message="Salaisen alueen luonti ei onnistunut")
@@ -168,7 +155,6 @@ def create_secret_area():
 
 @app.route("/delete_message<message_id>", methods=["GET", "POST"])
 def delete_message(message_id):
-    print(f"/delete_message POST, message_id: {message_id}")
     thread_id = messages.get_by_id(message_id)[1]
     if messages.delete(message_id):
         return redirect(url_for("handle_messages", thread_id=thread_id))
@@ -177,7 +163,6 @@ def delete_message(message_id):
 
 @app.route("/delete_thread<thread_id>", methods=["GET", "POST"])
 def delete_thread(thread_id):
-    print(f"/delete_thread POST, thread_id: {thread_id}")
     area_id = threads.get_area_id(thread_id)
     if threads.delete(thread_id):
         return redirect(url_for("handle_threads", area_id=area_id))
@@ -186,7 +171,6 @@ def delete_thread(thread_id):
 
 @app.route("/delete_area<area_id>", methods=["GET", "POST"])
 def delete_area(area_id):
-    print(f"/delete_area POST, area_id: {area_id}")
     if areas.delete(area_id):
         return redirect("/areas")
     return render_template("error.html", message="Alueen poistaminen ei onnistunut")
@@ -195,10 +179,8 @@ def delete_area(area_id):
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        print("/login GET")
         return render_template("login.html")
     if request.method == "POST":
-        print("/login POST")
         username = request.form["username"]
         password = request.form["password"]
         if users.login(username, password):
@@ -208,7 +190,6 @@ def login():
 
 @app.route("/logout")
 def logout():
-    print("/logout")
     users.logout()
     return redirect("/")
 
@@ -216,10 +197,8 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
-        print("/register GET")
         return render_template("register.html")
     if request.method == "POST":
-        print("/register POST")
         username = request.form["username"].strip()
         password1 = request.form["password1"].strip()
         password2 = request.form["password2"].strip()
@@ -252,7 +231,6 @@ def register():
 
 @app.route("/areas")
 def handle_areas():
-    print("/areas")
     return render_template("areas.html", areas=areas.get_list())
 
 

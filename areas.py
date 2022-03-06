@@ -101,10 +101,7 @@ def create_secret(area_name, user_id_list):
     sql_area_id = "SELECT id FROM areas ORDER BY id DESC LIMIT 1;"
     result = db.session.execute(sql_area_id)
     area_id = result.fetchone()[0]
-    print(f"areas, create_secret, area_id: {area_id}")
-    print(f"areas, create_secret, user_id_list: {user_id_list}")
     for user_id in user_id_list:
-        print(f"areas, create_secret, in loop, user_id: {user_id}")
         sql_users_areas = (
             "INSERT INTO users_areas (user_id, area_id) VALUES (:user_id, :area_id)"
         )
