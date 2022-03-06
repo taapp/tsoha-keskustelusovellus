@@ -43,6 +43,10 @@ def handle_edit_message():
     print('/handle_edit_message')
     message_id = request.form["message_id"]
     content = request.form["content"]
+    if len(content) < 1:
+        return render_template("error.html", message="Viestin sisällön pitää olla ainakin yhden merkin pituinen.")
+    if len(content) > 500:
+        return render_template("error.html", message="Viestin sisällön pitää olla alle 500 merkin pituinen.")
     users.check_csrf_token(request)
     if messages.edit(message_id, content):
         #return redirect("/")
@@ -88,6 +92,10 @@ def send_message():
     content = request.form["content"]
     thread_id = request.form["thread_id"]
     users.check_csrf_token(request)
+    if len(content) < 1:
+        return render_template("error.html", message="Viestin sisällön pitää olla ainakin yhden merkin pituinen.")
+    if len(content) > 500:
+        return render_template("error.html", message="Viestin sisällön pitää olla alle 500 merkin pituinen.")
     if messages.send(content, thread_id):
         #return redirect("/")
         return redirect("/areas")
@@ -100,6 +108,10 @@ def create_thread():
     thread_title = request.form["thread_title"]
     area_id = request.form["area_id"]
     users.check_csrf_token(request)
+    if len(thread_title) < 1:
+        return render_template("error.html", message="Ketjun otsikon pitää olla ainakin yhden merkin pituinen.")
+    if len(thread_title) > 20:
+        return render_template("error.html", message="Ketjun otsikon pitää olla alle 21 merkin pituinen.")
     if threads.create(thread_title, area_id):
         #return redirect("/")
         return redirect("/areas")
@@ -112,6 +124,10 @@ def create_area():
     print('/create_area POST')
     area_name = request.form["area_name"]
     users.check_csrf_token(request)
+    if len(area_name) < 1:
+        return render_template("error.html", message="Alueen nimen pitää olla ainakin yhden merkin pituinen.")
+    if len(area_name) > 20:
+        return render_template("error.html", message="Alueen nimen pitää olla alle 21 merkin pituinen.")
     if areas.create(area_name):
         #return redirect("/")
         return redirect("/areas")
@@ -202,6 +218,14 @@ def register():
         is_admin = bool(request.form["user_type"])
         if password1 != password2:
             return render_template("error.html", message="Salasanat eroavat")
+        if len(username) < 1:
+            return render_template("error.html", message="Käyttäjänimen pitää olla ainakin yhden merkin pituinen.")
+        if len(username) > 20:
+            return render_template("error.html", message="Käyttäjänimen pitää olla alle 21 merkin pituinen.")
+        if len(password1) < 1:
+            return render_template("error.html", message="Salasanan pitää olla ainakin yhden merkin pituinen.")
+        if len(password1) > 30:
+            return render_template("error.html", message="Salasanan pitää olla alle 31 merkin pituinen.")
         if users.register(username, password1, is_admin):
             return redirect("/")
         else:
@@ -238,6 +262,10 @@ def search_messages():
     #ls = messages.get_list(thread_id)
     searched_content = request.form["searched_content"]
     users.check_csrf_token(request)
+    if len(searched_content) < 1:
+        return render_template("error.html", message="Etsityn sisällön pitää olla ainakin yhden merkin pituinen.")
+    if len(searched_content) > 30:
+        return render_template("error.html", message="Etsityn sisällön pitää olla alle 30 merkin pituinen.")
     messages_list = messages.get_by_content(searched_content)
     return render_template("searched_messages.html", messages=messages_list, searched_content=searched_content)
 
