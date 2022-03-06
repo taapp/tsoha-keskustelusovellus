@@ -21,7 +21,14 @@ def edit_message(message_id):
     if request.method == "GET":
         print('/edit_message GET')
         message = messages.get_by_id(message_id)
-        return render_template("edit_message.html", message_id=message[0], thread_id=message[1], content=message[2], user_id=message[3])
+        thread_id = message[1]
+        area_id = threads.get_area_id(thread_id)
+        area_name = areas.get_area_name(area_id)
+        thread_title = threads.get_title(thread_id)
+        return render_template(
+            "edit_message.html", message_id=message[0], thread_id=thread_id, content=message[2], 
+            user_id=message[3], area_id=area_id, area_name=area_name, thread_title=thread_title
+        )
     # if request.method == "POST":
     #     print('/edit_message POST')
     #     message_id = request.form["message_id"]
