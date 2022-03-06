@@ -22,6 +22,12 @@ def get_title(thread_id):
     result = db.session.execute(sql, {'thread_id':thread_id})
     return result.fetchone()[0]
 
+def get_area_id(thread_id):
+    sql = """SELECT area_id FROM threads WHERE id=:thread_id"""
+    result = db.session.execute(sql, {'thread_id':thread_id})
+    return result.fetchone()[0]
+
+
 
 def create(thread_title, area_id):
     user_id = users.user_id()

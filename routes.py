@@ -217,7 +217,12 @@ def handle_threads(area_id):
 @app.route("/messages<thread_id>", methods=["GET", "POST"])
 def handle_messages(thread_id):
     thread_title = threads.get_title(thread_id)
-    return render_template("messages.html", messages=messages.get_list(thread_id), thread_title=thread_title, thread_id=thread_id)
+    area_id = threads.get_area_id(thread_id)
+    area_name = areas.get_area_name(area_id)
+    return render_template(
+        "messages.html", messages=messages.get_list(thread_id), thread_title=thread_title, 
+        thread_id=thread_id,area_id=area_id, area_name=area_name
+    )
 
 @app.route("/search_messages", methods=["GET", "POST"])
 def search_messages():
