@@ -1,11 +1,4 @@
-<!--
-{% if session.username %}
-<p>Alueet-sivu, olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
-{% else %}
-<p>Et ole kirjautunut sisään.</p>
-{% endif %} 
--->
+
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <div class="container">
@@ -17,6 +10,7 @@
       <li class="nav-item">
         <a class="nav-link" href="/logout">Kirjaudu ulos</a>
       </li>
+      <!--
         {% if session.user_is_admin==True %}
         <li class="nav-item"></li>
             <a class="nav-link" href="{{ url_for('new_area') }}">Luo alue</a> 
@@ -25,10 +19,11 @@
             <a class="nav-link" href="{{ url_for('new_secret_area') }}">Luo salainen alue</a> 
         </li>
         {% endif %}
+      -->
     </ul>
   </nav>
 
-Olet kirjautunut sisään.
+<h5>Olet kirjautunut nimellä "{{ session.username }}"</h5>
 <!-- <a href="/new">Lähetä viesti</a> |  <a href="/logout">Kirjaudu ulos</a> -->
 <!--<a href="{{ url_for('new_area') }}">Luo alue</a> | <a href="/logout">Kirjaudu ulos</a> -->
 <p></p>
@@ -39,6 +34,12 @@ Etsi viestejä tekstisisällön perusteella:
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 <!-- Viestien määrä: {{ count }} -->
+
+{% if session.user_is_admin==True %}
+<hr>
+<h5><a href="{{ url_for('new_area') }}" class="btn btn-info" role="button">Luo uusi alue</a></h5>
+<h5><a href="{{ url_for('new_secret_area') }}" class="btn btn-info" role="button">Luo uusi salainen alue</a></h5>
+{% endif %}
 <hr>
 {% for area in areas %}
 <i>Alue:</i> {{ area[1] }}
@@ -69,9 +70,9 @@ Etsi viestejä tekstisisällön perusteella:
 
 {% endfor %}
 {% if session.user_is_admin==True %}
-<a href="{{ url_for('new_area') }}">Luo alue</a> 
-<p>
-<a href="{{ url_for('new_secret_area') }}">Luo salainen alue</a> 
+<hr>
+<h5><a href="{{ url_for('new_area') }}" class="btn btn-info" role="button">Luo uusi alue</a></h5>
+<h5><a href="{{ url_for('new_secret_area') }}" class="btn btn-info" role="button">Luo uusi salainen alue</a></h5>
 {% endif %}
 <hr>
 Olet kirjautunut sisään. | <a href="/logout">Kirjaudu ulos</a>

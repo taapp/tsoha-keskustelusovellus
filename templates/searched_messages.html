@@ -1,11 +1,3 @@
-<!--
-{% if session.username %}
-<p>Alueet-sivu, olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
-{% else %}
-<p>Et ole kirjautunut sisään.</p>
-{% endif %} 
--->
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <div class="container">
@@ -26,11 +18,11 @@
   </nav>
 
 
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
+<h5>Olet kirjautunut nimellä "{{ session.username }}"</h5>
 
 
 <hr>
-<p>Alla haulla "{{ searched_content }}" löytyneet viestit:</p>
+<h5>Alla haulla "{{ searched_content }}" löytyneet viestit:</h5>
 <hr>
 {% for message in messages %}
 <p>

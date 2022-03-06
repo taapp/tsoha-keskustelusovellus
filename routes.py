@@ -14,8 +14,9 @@ def index():
 @app.route("/new_message<thread_id>", methods=["GET", "POST"])
 def new_message(thread_id):
     thread_title = threads.get_title(thread_id)
+    area_name = areas.get_area_name(threads.get_area_id(thread_id))
     return render_template(
-        "new_message.html", thread_id=thread_id, thread_title=thread_title
+        "new_message.html", thread_id=thread_id, thread_title=thread_title, area_name=area_name
     )
 
 

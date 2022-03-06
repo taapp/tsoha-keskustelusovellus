@@ -1,12 +1,3 @@
-<!--
-{% if session.username %}
-<p>Alueet-sivu, olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
-{% else %}
-<p>Et ole kirjautunut sisään.</p>
-{% endif %} 
--->
-
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <div class="container">
@@ -28,20 +19,22 @@
     </ul>
   </nav>
 
-<p>Alue: "{{ area_name }}"</p>
-<p>Ketju: "{{ thread_title }}"</p>
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
-  
-
+<h5>Alue: "{{ area_name }}"</h5>
+<h5>Ketju: "{{ thread_title }}"</h5>
+<h5>Olet kirjautunut nimellä "{{ session.username }}"</h5>
+<hr>
+<h5><a href="{{ url_for('new_message', thread_id=thread_id) }}" class="btn btn-info" role="button">Kirjoita uusi viesti</a></h5>
 <hr>
 {% for message in messages %}
-<i>Viesti:</i> {{ message[0] }}
+
 <p>
 <i>Luoja:</i> {{ message[1] }}
 <p>
 <i>Aika:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
 <p>
 <i>Viestin id:</i> {{ message[4] }}
+<p>
+<i>Viesti:</i> {{ message[0] }}
 {% if session.user_id==message[5] or session.user_is_admin==True %}
 <p>
 <!-- <a href="{{ url_for('handle_messages', thread_id=message[3]) }}">Mene ketjuun</a> -->
@@ -52,9 +45,9 @@
 <hr>
 
 {% endfor %}
-Olet kirjautunut sisään.
-<!-- <a href="/new_message">Lähetä viesti</a> | <a href="/logout">Kirjaudu ulos</a> -->
-<a href="{{ url_for('new_message', thread_id=thread_id) }}">Lähetä viesti</a> | <a href="/logout">Kirjaudu ulos</a>
+<h5><a href="{{ url_for('new_message', thread_id=thread_id) }}" class="btn btn-info" role="button">Kirjoita uusi viesti</a></h5>
+<hr>
+Olet kirjautunut sisään. | <a href="/logout">Kirjaudu ulos</a>
 {% else %}
 <a href="/login">Kirjaudu sisään</a>
 {% endif %}
