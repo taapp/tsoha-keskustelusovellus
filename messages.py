@@ -1,27 +1,35 @@
-from re import S
 from db import db
 import users
 
 
 def get_list(thread_id):
-    sql = """SELECT M.content, U.name, M.created_at, M.thread_id, M.id, M.user_id, U.is_admin FROM messages M, users U 
-             WHERE M.user_id=U.id AND M.thread_id=:thread_id AND M.is_visible=TRUE ORDER BY M.created_at"""
-    result = db.session.execute(sql, {'thread_id':thread_id})
+    sql = """SELECT M.content, U.name, M.created_at, M.thread_id, M.id, M.user_id, U.is_admin
+        FROM messages M, users U
+        WHERE M.user_id=U.id AND M.thread_id=:thread_id AND M.is_visible=TRUE 
+        ORDER BY M.created_at"""
+    result = db.session.execute(sql, {"thread_id": thread_id})
     return result.fetchall()
 
+
 def get_by_id(message_id):
-    sql = """SELECT id, thread_id, content, user_id FROM messages WHERE id=:message_id"""
-    result = db.session.execute(sql, {'message_id':message_id})
+    sql = (
+        """SELECT id, thread_id, content, user_id FROM messages WHERE id=:message_id"""
+    )
+    result = db.session.execute(sql, {"message_id": message_id})
     return result.fetchone()
+
 
 def get_by_content(content):
     if users.user_is_admin():
-        sql = f"""SELECT me.id, me.content, me.created_at, us.name AS user_name, th.title AS thread_title, th.id AS thread_id, ar.name AS area_name FROM messages me
+        sql = """SELECT me.id, me.content, me.created_at, us.name AS user_name,
+            th.title AS thread_title, th.id AS thread_id, ar.name AS area_name
+            FROM messages me
             JOIN users us ON me.user_id=us.id
             JOIN threads th ON me.thread_id=th.id
             JOIN areas ar ON th.area_id=ar.id
-            WHERE LOWER(me.content) LIKE LOWER(:content) AND me.is_visible=TRUE AND th.is_visible=TRUE AND ar.is_visible=TRUE"""
-        result = db.session.execute(sql, {'content':"%"+content.strip()+"%"})
+            WHERE LOWER(me.content) LIKE LOWER(:content) AND me.is_visible=TRUE 
+            AND th.is_visible=TRUE AND ar.is_visible=TRUE"""
+        result = db.session.execute(sql, {"content": "%" + content.strip() + "%"})
     else:
         sql = """
             WITH join_table_not_secret AS (
@@ -54,7 +62,13 @@ def get_by_content(content):
             SELECT message_id, content, created_at_message, user_name, thread_title, thread_id, area_name
             FROM join_table_full
             """
-        result = db.session.execute(sql, {'content':"%"+content.strip()+"%", 'user_id_current':users.user_id()})
+        result = db.session.execute(
+            sql,
+            {
+                "content": "%" + content.strip() + "%",
+                "user_id_current": users.user_id(),
+            },
+        )
     return result.fetchall()
 
 
@@ -62,20 +76,24 @@ def send(content, thread_id):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    #sql = "INSERT INTO messages (content, user_id, sent_at) VALUES (:content, :user_id, NOW())"
-    sql = "INSERT INTO messages (user_id, thread_id, content, created_at, is_visible) VALUES (:user_id, :thread_id, :content, NOW(), TRUE)"
-    db.session.execute(sql, {"user_id":user_id, 'thread_id': thread_id, "content":content})
+    sql = """INSERT INTO messages (user_id, thread_id, content, created_at, is_visible)
+        VALUES (:user_id, :thread_id, :content, NOW(), TRUE)"""
+    db.session.execute(
+        sql, {"user_id": user_id, "thread_id": thread_id, "content": content}
+    )
     db.session.commit()
     return True
+
 
 def delete(message_id):
     sql = """UPDATE messages SET is_visible=FALSE WHERE id=:message_id;"""
-    db.session.execute(sql, {"message_id":message_id})
+    db.session.execute(sql, {"message_id": message_id})
     db.session.commit()
     return True
 
+
 def edit(message_id, content):
     sql = """UPDATE messages SET content=:content WHERE id=:message_id;"""
-    db.session.execute(sql, {"message_id":message_id, "content":content})
+    db.session.execute(sql, {"message_id": message_id, "content": content})
     db.session.commit()
     return True
