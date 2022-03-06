@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, url_for
 import users, areas, threads, messages
 
 
@@ -43,6 +43,7 @@ def handle_edit_message():
     print('/handle_edit_message')
     message_id = request.form["message_id"]
     content = request.form["content"]
+    thread_id = messages.get_by_id(message_id)[1]
     if len(content) < 1:
         return render_template("error.html", message="Viestin sisällön pitää olla ainakin yhden merkin pituinen.")
     if len(content) > 500:
@@ -50,7 +51,8 @@ def handle_edit_message():
     users.check_csrf_token(request)
     if messages.edit(message_id, content):
         #return redirect("/")
-        return redirect("/areas")
+        #return redirect("/areas")
+        return redirect(url_for('handle_messages', thread_id=thread_id))
     return render_template("error.html", message="Viestin muuttaminen ei onnistunut")
 # @app.route("/login", methods=["GET", "POST"])
 # def login():
@@ -98,7 +100,8 @@ def send_message():
         return render_template("error.html", message="Viestin sisällön pitää olla alle 500 merkin pituinen.")
     if messages.send(content, thread_id):
         #return redirect("/")
-        return redirect("/areas")
+        #return redirect("/areas")
+        return redirect(url_for('handle_messages', thread_id=thread_id))
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
 
@@ -114,7 +117,8 @@ def create_thread():
         return render_template("error.html", message="Ketjun otsikon pitää olla alle 21 merkin pituinen.")
     if threads.create(thread_title, area_id):
         #return redirect("/")
-        return redirect("/areas")
+        #return redirect("/areas")
+        return redirect(url_for('handle_threads', area_id=area_id))
     else:
         return render_template("error.html", message="Ketjun luonti ei onnistunut")
 
@@ -150,18 +154,22 @@ def create_secret_area():
 @app.route("/delete_message<message_id>", methods=["GET","POST"])
 def delete_message(message_id):
     print(f'/delete_message POST, message_id: {message_id}')
+    thread_id = messages.get_by_id(message_id)[1]
     if messages.delete(message_id):
         #return redirect("/")
-        return redirect("/areas")
+        #return redirect("/areas")
+        return redirect(url_for('handle_messages', thread_id=thread_id))
     else:
         return render_template("error.html", message="Viestin poistaminen ei onnistunut")
 
 @app.route("/delete_thread<thread_id>", methods=["GET","POST"])
 def delete_thread(thread_id):
     print(f'/delete_thread POST, thread_id: {thread_id}')
+    area_id = threads.get_area_id(thread_id)
     if threads.delete(thread_id):
         #return redirect("/")
-        return redirect("/areas")
+        #return redirect("/areas")
+        return redirect(url_for('handle_threads', area_id=area_id))
     else:
         return render_template("error.html", message="Ketjun poistaminen ei onnistunut")
 
