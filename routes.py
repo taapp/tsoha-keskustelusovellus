@@ -42,7 +42,7 @@ def edit_message(message_id):
 def handle_edit_message():
     print('/handle_edit_message')
     message_id = request.form["message_id"]
-    content = request.form["content"]
+    content = request.form["content"].strip()
     thread_id = messages.get_by_id(message_id)[1]
     if len(content) < 1:
         return render_template("error.html", message="Viestin sisällön pitää olla ainakin yhden merkin pituinen.")
@@ -91,7 +91,7 @@ def new_secret_area():
 @app.route("/send_message", methods=["POST"])
 def send_message():
     print('/send_message POST')
-    content = request.form["content"]
+    content = request.form["content"].strip()
     thread_id = request.form["thread_id"]
     users.check_csrf_token(request)
     if len(content) < 1:
@@ -108,13 +108,13 @@ def send_message():
 @app.route("/create_thread", methods=["POST"])
 def create_thread():
     print('/create_thread POST')
-    thread_title = request.form["thread_title"]
+    thread_title = request.form["thread_title"].strip()
     area_id = request.form["area_id"]
     users.check_csrf_token(request)
     if len(thread_title) < 1:
         return render_template("error.html", message="Ketjun otsikon pitää olla ainakin yhden merkin pituinen.")
-    if len(thread_title) > 20:
-        return render_template("error.html", message="Ketjun otsikon pitää olla alle 21 merkin pituinen.")
+    if len(thread_title) > 40:
+        return render_template("error.html", message="Ketjun otsikon pitää olla alle 41 merkin pituinen.")
     if threads.create(thread_title, area_id):
         #return redirect("/")
         #return redirect("/areas")
@@ -126,12 +126,12 @@ def create_thread():
 @app.route("/create_area", methods=["POST"])
 def create_area():
     print('/create_area POST')
-    area_name = request.form["area_name"]
+    area_name = request.form["area_name"].strip()
     users.check_csrf_token(request)
     if len(area_name) < 1:
         return render_template("error.html", message="Alueen nimen pitää olla ainakin yhden merkin pituinen.")
-    if len(area_name) > 20:
-        return render_template("error.html", message="Alueen nimen pitää olla alle 21 merkin pituinen.")
+    if len(area_name) > 40:
+        return render_template("error.html", message="Alueen nimen pitää olla alle 41 merkin pituinen.")
     if areas.create(area_name):
         #return redirect("/")
         return redirect("/areas")
@@ -141,9 +141,13 @@ def create_area():
 @app.route("/create_secret_area", methods=["POST"])
 def create_secret_area():
     print('/create_secret_area POST')
-    area_name = request.form["area_name"]
+    area_name = request.form["area_name"].strip()
     users_list = request.form.getlist("users")
     users.check_csrf_token(request)
+    if len(area_name) < 1:
+        return render_template("error.html", message="Alueen nimen pitää olla ainakin yhden merkin pituinen.")
+    if len(area_name) > 40:
+        return render_template("error.html", message="Alueen nimen pitää olla alle 41 merkin pituinen.")
     print(users_list)
     if areas.create_secret(area_name, users_list):
         #return redirect("/")
@@ -220,9 +224,9 @@ def register():
         return render_template("register.html")
     if request.method == "POST":
         print('/register POST')
-        username = request.form["username"]
-        password1 = request.form["password1"]
-        password2 = request.form["password2"]
+        username = request.form["username"].strip()
+        password1 = request.form["password1"].strip()
+        password2 = request.form["password2"].strip()
         is_admin = bool(request.form["user_type"])
         if password1 != password2:
             return render_template("error.html", message="Salasanat eroavat")
@@ -268,7 +272,7 @@ def search_messages():
     #ls = threads.get_list(area_id)
     #return render_template("threads.html", threads=ls)
     #ls = messages.get_list(thread_id)
-    searched_content = request.form["searched_content"]
+    searched_content = request.form["searched_content"].strip()
     users.check_csrf_token(request)
     if len(searched_content) < 1:
         return render_template("error.html", message="Etsityn sisällön pitää olla ainakin yhden merkin pituinen.")

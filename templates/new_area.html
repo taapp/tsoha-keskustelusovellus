@@ -1,7 +1,13 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+
+<div class="container">
+
 {% if session.user_is_admin==True %}
 <hr>
 <form action="/create_area" method="post"> 
-Alueen nimi: <input type="text" name="area_name" minlength="1" maxlength="20">
+Alueen nimi: <input type="text" name="area_name" minlength="1" maxlength="40">
 <p>
 <input type="submit" value="Luo alue">
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
@@ -9,3 +15,5 @@ Alueen nimi: <input type="text" name="area_name" minlength="1" maxlength="20">
 {% else %}
 Ei käyttöoikeuksia. | <a href="/logout">Kirjaudu ulos</a>
 {% endif %}
+
+</div>

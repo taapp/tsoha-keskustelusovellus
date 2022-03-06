@@ -1,9 +1,22 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+
+<div class="container">
+{% if session.user_id %}
 Alue: {{ area_name }}
 <hr>
 <form action="/create_thread" method="post"> 
-Otsikko: <input type="text" name="thread_title" minlength="1" maxlength="20">
+Otsikko: <input type="text" name="thread_title" minlength="1" maxlength="40">
 <p>
 <input type="submit" value="Luo ketju">
 <input type="hidden" name="area_id" value="{{ area_id }}">
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
+
+{% else %}
+<a href="/login">Kirjaudu sisään</a>
+{% endif %}
+
+
+</div>
